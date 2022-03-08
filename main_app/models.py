@@ -19,4 +19,5 @@ class Event(models.Model):
     spotsAvailable = models.IntegerField(default=0)
 
 class BlockedPlayer(models.Model):
-    blockingUser = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="blocked_players")
+    blockedUser = models.OneToOneField(Player, on_delete=models.CASCADE, related_name="blocked_by")
+    blockingUsers = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="blocking_players")
