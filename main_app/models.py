@@ -1,9 +1,12 @@
+from tkinter import Image
 from django.db import models
 from django.contrib.auth.models import User
+from pyuploadcare.dj.models import ImageField
 
 class Game(models.Model):
     name = models.CharField(max_length=100)
     crossplay = models.BooleanField(default=False)
+    img = ImageField(blank=False, manual_crop="400x500")
     
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="player")
