@@ -1,0 +1,1 @@
+web: gunicorn lfg_backend.wsgi
