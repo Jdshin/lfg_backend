@@ -32,9 +32,9 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
-class BlockedPlayer(models.Model):
-    blockedUser = models.OneToOneField(Player, on_delete=models.CASCADE, related_name="blocked_by")
-    blockingUsers = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="blocking_players")
+class Blacklist(models.Model):
+    user = models.OneToOneField(Player, on_delete=models.CASCADE, related_name="blacklist")
+    blockedUsers = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="blockedPlayers")
     
     def __str__(self):
-        return self.blockedUser.accountName
+        return self.user.username
