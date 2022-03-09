@@ -10,6 +10,14 @@ import json
 
 # Create your views here.
 class Signup(View):
+    def get(self, request):
+        form = UserCreationForm()
+        res = {
+            'form' : form
+        }
+        return JsonResponse(res)
+        
+    
     def post(self, request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -17,10 +25,10 @@ class Signup(View):
             login(request, user)
             return redirect("/user/{}".format(user._id))
         else:
-            context = {
+            res = {
                 'status' : 400
             }
-            return context
+            return JsonResponse(res)
         
 class Home(View):
     def get_context_data(self, **kwargs):
@@ -40,7 +48,8 @@ class Games(View):
             json_str = json.dumps(
                 {
                     'name' : game.name,
-                    'crossplay' : game.crossplay
+                    'crossplay' : game.crossplay,
+                    'img' : "https://ucarecdn.com/{}/".format(game.img.uuid)
                 }
             )
             json_response["{}".format(game.name)] = json_str
