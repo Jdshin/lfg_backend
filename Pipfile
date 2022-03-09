@@ -11,6 +11,8 @@ python-dotenv = "*"
 pyuploadcare = "*"
 djongo = "*"
 pymongo = "==3.12.1"
+django-cors-headers = "*"
+django-heroku = "*"
 
 [dev-packages]
 
