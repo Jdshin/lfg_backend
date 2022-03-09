@@ -13,6 +13,8 @@ djongo = "*"
 pymongo = "==3.12.1"
 django-cors-headers = "*"
 django-heroku = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [dev-packages]
 
