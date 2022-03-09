@@ -1,5 +1,4 @@
 from django.contrib import admin
-from torch import Block
 from main_app.models import Player, BlockedPlayer, Game, Event
 
 admin.site.register(Game)
