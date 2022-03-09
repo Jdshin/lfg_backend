@@ -9,4 +9,5 @@ urlpatterns = [
     path('games', views.Games.as_view(), name="games"), 
     path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('user/create/', views.UserCreate.as_view(), name="create_user")
 ]
