@@ -78,6 +78,7 @@ class Events(View):
             
             json_str = json.dumps(
                 {
+                    'pk': event.pk,
                     'game': event.game.name,
                     'name': event.name,
                     'desc': event.description,

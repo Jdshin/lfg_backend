@@ -27,6 +27,7 @@ class Event(models.Model):
     location = models.CharField(max_length=100, blank=True)
     creator = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="created_events")
     spotsAvailable = models.IntegerField(default=0)
+    spotsTotal = models.PositiveIntegerField(default=0)
     
     def __str__(self):
         return self.name
