@@ -79,7 +79,7 @@ class Events(View):
                     'spots': event.spotsAvailable
                 }
             )
-            json_response["{}".format(event.id)] = json_str
+            json_response["{}".format(event._id)] = json_str
         return JsonResponse(json_str)
         
 class UserCreate(APIView):
