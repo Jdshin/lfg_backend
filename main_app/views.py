@@ -73,12 +73,9 @@ class Events(View):
         for event in events:
             json_str = json.dumps(
                 {
-                    'game': event.game.name,
-                    'img': event.game.img,
                     'name': event.name,
                     'desc': event.description,
                     'location': event.location,
-                    'creator': event.creator.accountName,
                     'spots': event.spotsAvailable
                 }
             )
