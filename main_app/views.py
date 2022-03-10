@@ -66,7 +66,23 @@ class Games(View):
     
 class Events(View):
     def get(self, request, **kwargs):
-        json_str = serializers.serialize("json", Event.objects.all())
+        
+        events = Event.objects.all()
+        json_response = {}
+
+        for event in events:
+            json_str = json.dumps(
+                {
+                    'game': event.game.name,
+                    'img': event.game.img,
+                    'name': event.name,
+                    'desc': event.description,
+                    'location': event.location,
+                    'creator': event.creator.accountName,
+                    'spots': event.spotsAvailable
+                }
+            )
+            json_response["{}".format(event.id)] = json_str
         return JsonResponse(json_str)
         
 class UserCreate(APIView):
