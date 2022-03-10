@@ -16,17 +16,23 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env_path = Path('.')/'.env'
+load_dotenv(dotenv_path=env_path)
+
+DJANGO_KEY = os.environ.get('DJANGO_KEY')
+MONGODB_URL = os.environ.get('MONGODB_URL')
+UPLOADCARE_PUB = os.environ.get('UPLOADCARE_PUB')
+UPLOADCARE_KEY = os.environ.get('UPLOADCARE_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv('DJANGO_KEY'))
+SECRET_KEY = DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -117,7 +123,7 @@ DATABASES = {
         'NAME': 'lfg',
         'ENFORCE_SCHEMA': True,
         'CLIENT': {
-            'host': str(os.getenv('MONGODB_URL'))
+            'host': MONGODB_URL
         }
     }
 }
@@ -164,8 +170,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 UPLOADCARE = {
-    'pub_key': str(os.getenv('UPLOADCARE_PUB')),
-    'secret': str(os.getenv('UPLOADCARE_KEY')),
+    'pub_key': UPLOADCARE_PUB,
+    'secret': UPLOADCARE_KEY,
 }
 
 django_heroku.settings(locals())

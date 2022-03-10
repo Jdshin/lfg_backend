@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View, CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login
+from django.views.generic import TemplateView
 from main_app.models import Game, Event, Player
 from django.http import JsonResponse
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -34,7 +35,10 @@ class Signup(View):
             }
             return JsonResponse(res)
         
-class Home(View):
+class Home(TemplateView):
+    def get(self, request):
+        return render(request, 'home.html')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # TODO limit game object maybe for the future
