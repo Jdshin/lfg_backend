@@ -71,16 +71,24 @@ class Events(View):
         json_response = {}
 
         for event in events:
+            
+            players = event.players.all()
+            
+            attendees = [player.accountName for player in players]
+            
             json_str = json.dumps(
                 {
+                    'game': event.game.name,
                     'name': event.name,
                     'desc': event.description,
                     'location': event.location,
-                    'spots': event.spotsAvailable
+                    'spots': event.spotsAvailable,
+                    'creator': event.creator.accountName,
+                    'players': attendees,
                 }
             )
-            json_response["{}".format(event._id)] = json_str
-        return JsonResponse(json_str)
+            json_response["{}".format(event.id)] = json_str
+        return JsonResponse(json_response)
         
 class UserCreate(APIView):
     permissions_classes = (permissions.AllowAny,)
