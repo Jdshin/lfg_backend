@@ -67,28 +67,51 @@ class Games(View):
 class Events(View):
     def get(self, request, **kwargs):
         
-        events = Event.objects.all()
-        json_response = {}
-
-        for event in events:
-            
-            players = event.players.all()
-            
+        optionalPk = None
+        
+        if 'pk' in kwargs.keys():
+            optionalPk = kwargs['pk']
+        
+        if optionalPk:
+            event = Event.objects.filter(pk=optionalPk)
+            print(event[0].game.name)
+            json_response = {}
+            players = event[0].players.all()
             attendees = [player.accountName for player in players]
-            
             json_str = json.dumps(
                 {
-                    'pk': event.pk,
-                    'game': event.game.name,
-                    'name': event.name,
-                    'desc': event.description,
-                    'location': event.location,
-                    'spots': event.spotsAvailable,
-                    'creator': event.creator.accountName,
+                    'pk': event[0].pk,
+                    'game': event[0].game.name,
+                    'name': event[0].name,
+                    'desc': event[0].description,
+                    'location': event[0].location,
+                    'spots': event[0].spotsAvailable,
+                    'creator': event[0].creator.accountName,
                     'players': attendees,
                 }
             )
-            json_response["{}".format(event.id)] = json_str
+            json_response["{}".format(event[0].id)] = json_str
+            
+        else:
+            events = Event.objects.all()
+            json_response = {}
+            for event in events:
+                players = event.players.all()
+                attendees = [player.accountName for player in players]
+                json_str = json.dumps(
+                    {
+                        'pk': event.pk,
+                        'game': event.game.name,
+                        'name': event.name,
+                        'desc': event.description,
+                        'location': event.location,
+                        'spots': event.spotsAvailable,
+                        'creator': event.creator.accountName,
+                        'players': attendees,
+                    }
+                )
+                json_response["{}".format(event.id)] = json_str
+                
         return JsonResponse(json_response)
         
 class UserCreate(APIView):
