@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from django.views.generic import TemplateView
 from main_app.models import Game, Event, Player
 from django.http import JsonResponse
+from django.core import serializers
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions
 from rest_framework.response import Response
@@ -62,6 +63,11 @@ class Games(View):
             )
             json_response["{}".format(game.name)] = json_str
         return JsonResponse(json_response)
+    
+class Events(View):
+    def get(self, request, **kwargs):
+        json_str = serializers.serialize("json", Event.objects.all())
+        return JsonResponse(json_str)
         
 class UserCreate(APIView):
     permissions_classes = (permissions.AllowAny,)
