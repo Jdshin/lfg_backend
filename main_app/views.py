@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer
 
 # Create your views here.
-class Signup(View):
+class Signup(APIView):
     def get(self, request):
         form = UserCreationForm()
         res = {
@@ -46,7 +46,7 @@ class Home(TemplateView):
         context["homeData"] =  Game.objects.all()
         return context
     
-class Games(View):
+class Games(APIView):
     def get(self, request, **kwargs):
         # TODO Possibly need to convert to async call for hosting
         games = Game.objects.all()
@@ -64,7 +64,7 @@ class Games(View):
             json_response["{}".format(game.name)] = json_str
         return JsonResponse(json_response)
     
-class Events(View):
+class Events(APIView):
     def get(self, request, **kwargs):
         
         optionalPk = None
@@ -115,7 +115,6 @@ class Events(View):
         return JsonResponse(json_response)
         
 class UserCreate(APIView):
-    permissions_classes = (permissions.AllowAny,)
     
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
@@ -127,5 +126,6 @@ class UserCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class SimpleProtectedView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
