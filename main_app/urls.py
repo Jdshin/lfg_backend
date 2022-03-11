@@ -11,5 +11,6 @@ urlpatterns = [
     path('events/<int:pk>', views.Events.as_view(), name="event"),
     path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('user/create/', views.UserCreate.as_view(), name="create_user")
+    path('user/create/', views.UserCreate.as_view(), name="create_user"),
+    path('proview/', views.SimpleProtectedView.as_view(), name="simpleProView"),
 ]
