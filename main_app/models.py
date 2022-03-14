@@ -17,7 +17,7 @@ class Player(AbstractUser):
     games = models.ManyToManyField(Game, related_name="players", blank=True)
     
     def __str__(self):
-        return self.accountName
+        return self.username
 
 class Event(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="events")

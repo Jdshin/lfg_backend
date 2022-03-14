@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from .models import User
+from .models import User, Player
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8, write_only=True)
     
     class Meta:
-        model = User
+        model = Player
         fields = ('email', 'username', 'password')
         extra_kwargs = {'password': {'write-only': True}}
         
