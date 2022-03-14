@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from pyuploadcare.dj.models import ImageField
 
 class Game(models.Model):
@@ -11,9 +11,9 @@ class Game(models.Model):
         return self.name
         
     
-class Player(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="player")
-    accountName = models.CharField(max_length=100)
+class Player(AbstractUser):
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="player")
+    # accountName = models.CharField(max_length=100)
     games = models.ManyToManyField(Game, related_name="players", blank=True)
     
     def __str__(self):

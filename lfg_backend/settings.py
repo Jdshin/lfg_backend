@@ -92,6 +92,7 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
+AUTH_USER_MODEL = "main_app.Player"
 
 ROOT_URLCONF = 'lfg_backend.urls'
 
