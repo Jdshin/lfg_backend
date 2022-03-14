@@ -74,10 +74,9 @@ class Events(APIView):
         
         if optionalPk:
             event = Event.objects.filter(pk=optionalPk)
-            print(event[0].game.name)
             json_response = {}
             players = event[0].players.all()
-            attendees = [player.accountName for player in players]
+            attendees = [player.username for player in players]
             json_str = json.dumps(
                 {
                     'pk': event[0].pk,
@@ -86,7 +85,7 @@ class Events(APIView):
                     'desc': event[0].description,
                     'location': event[0].location,
                     'spots': event[0].spotsAvailable,
-                    'creator': event[0].creator.accountName,
+                    'creator': event[0].creator.username,
                     'players': attendees,
                 }
             )
@@ -97,7 +96,7 @@ class Events(APIView):
             json_response = {}
             for event in events:
                 players = event.players.all()
-                attendees = [player.accountName for player in players]
+                attendees = [player.username for player in players]
                 json_str = json.dumps(
                     {
                         'pk': event.pk,
@@ -106,12 +105,11 @@ class Events(APIView):
                         'desc': event.description,
                         'location': event.location,
                         'spots': event.spotsAvailable,
-                        'creator': event.creator.accountName,
+                        'creator': event.creator.username,
                         'players': attendees,
                     }
                 )
                 json_response["{}".format(event.id)] = json_str
-                
         return JsonResponse(json_response)
         
 class UserCreate(APIView):
