@@ -14,5 +14,6 @@ urlpatterns = [
     path('user/create/', views.UserCreate.as_view(), name="create_user"),
     path('game/create/', views.GameCreate.as_view(), name="game_create"),
     path('delete/game/<slug>/', views.delete_game, name="delete"),
+    path('update/event/<slug>/', views.update_event, name="update_event"),
     path('proview/', views.SimpleProtectedView.as_view(), name="simpleProView"),
 ]

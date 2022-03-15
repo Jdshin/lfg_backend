@@ -1,6 +1,7 @@
+from multiprocessing import Event
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from .models import User, Player, Game
+from .models import User, Player, Game, Event
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -36,3 +37,11 @@ class GameSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
+    
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('game', 'name', 'players', 'description', 'location', 'creator', 'spotsAvailable', 'spotsTotal')
+        
+    
+        
