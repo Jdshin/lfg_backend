@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from .models import User, Player
+from .models import User, Player, Game
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -23,3 +23,16 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class GameSerializer(serializers.ModelSerializer):
+    name = serializers.CharField()
+    crossplay = serializers.BooleanField()
+    img = serializers.ImageField()
+    
+    class Meta:
+        model = Game
+        fields = ('name', 'crossplay', 'img')
+        
+    def create(self, validated_data):
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        return instance

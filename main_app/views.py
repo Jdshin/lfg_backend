@@ -12,7 +12,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer
+from rest_framework.decorators import api_view
+from .serializers import GameSerializer, UserSerializer
 
 # Create your views here.
 class Signup(APIView):
@@ -58,7 +59,8 @@ class Games(APIView):
                 {
                     'name' : game.name,
                     'crossplay' : game.crossplay,
-                    'img' : "https://ucarecdn.com/{}/".format(game.img.uuid)
+                    'img' : "https://ucarecdn.com/{}/".format(game.img.uuid),
+                    'id' : game.id
                 }
             )
             json_response["{}".format(game.name)] = json_str
@@ -125,7 +127,37 @@ class UserCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class GameCreate(APIView):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = ()
+    
+    def post(self, request, format='json'):
+        serializer = GameSerializer(data=request.data)
+        if serializer.is_valid():
+            game = serializer.save()
+            if game:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE', ])
+def delete_game(request, slug):
+    try:
+        game = Game.objects.get(id=slug)
+    except Game.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == "DELETE":
+        operation = game.delete()
+        data = {}
+        if operation:
+            data['success'] = "delete successful"
+        else:
+            data["failure"] = 'delete failed'
+        return Response(data=data)
+    
 class SimpleProtectedView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
+    
